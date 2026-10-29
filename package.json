@@ -4,6 +4,9 @@
   "engines": {
     "node": ">=22"
   },
+  "workspaces": [
+    "packages/*"
+  ],
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "concurrently": "^10.0.6",

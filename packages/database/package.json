@@ -1,0 +1,23 @@
+{
+  "name": "@lexbridge/database",
+  "version": "0.0.1",
+  "private": true,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "generate": "prisma generate",
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "migrate": "prisma migrate deploy",
+    "seed": "tsx prisma/seed.ts"
+  },
+  "dependencies": {
+    "@nestjs/common": "^12.3.2",
+    "@prisma/client": "^7.10.1"
+  },
+  "devDependencies": {
+    "prisma": "^8.0.0-rc.28",
+    "tsx": "^4.23.15",
+    "typescript": "^6.0.3"
+  }
+}
