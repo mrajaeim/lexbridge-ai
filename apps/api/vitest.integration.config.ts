@@ -13,7 +13,7 @@ export default defineConfig({
       REDIS_URL: process.env.REDIS_URL ?? 'redis://localhost:6379',
       WEB_ORIGIN: 'http://localhost:3000',
       API_ORIGIN: 'http://localhost:4000',
-      OIDC_ISSUER: 'http://localhost:8080/realms/lexbridge',
+      OIDC_ISSUER: 'http://localhost:8180/realms/lexbridge',
       OIDC_CLIENT_ID: 'lexbridge-api',
       OIDC_CLIENT_SECRET: 'lexbridge-dev-secret',
       OIDC_REDIRECT_URI: 'http://localhost:4000/auth/callback',

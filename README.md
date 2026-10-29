@@ -45,7 +45,7 @@ Tenant isolation, session handling, and role-based authorization are enforced se
 ```mermaid
 flowchart LR
     Browser["Web app<br/>(localhost:3000)"] -->|"GraphQL / SSE<br/>HttpOnly session cookie"| API["API<br/>(localhost:4000)"]
-    API -->|"OIDC code + PKCE"| KC["Keycloak<br/>(localhost:8080)"]
+    API -->|"OIDC code + PKCE"| KC["Keycloak<br/>(localhost:8180)"]
     API --> PG[("PostgreSQL<br/>users, orgs, roles,<br/>documents, chats, jobs")]
     API <-->|"sessions, Pub/Sub"| Redis[("Redis")]
     Worker["PDF worker<br/>(PDFKit)"] --> PG
@@ -106,11 +106,11 @@ npm run dev
 | --- | --- | --- |
 | Web | http://localhost:3000 | |
 | API | http://localhost:4000 | |
-| Keycloak | http://localhost:8080 | Admin credentials: `admin` / `admin` |
+| Keycloak | http://localhost:8180 | Admin credentials: `admin` / `admin` |
 
 The Keycloak realm is named `lexbridge`.
 
-> **Development tip:** `docker compose up` (with no service list) also builds the API, worker, and web images. For day-to-day development, run only Postgres, Redis, and Keycloak in Docker and run the Node processes on the host. This keeps the OIDC issuer at `http://localhost:8080`.
+> **Development tip:** `docker compose up` (with no service list) also builds the API, worker, and web images. For day-to-day development, run only Postgres, Redis, and Keycloak in Docker and run the Node processes on the host. This keeps the OIDC issuer at `http://localhost:8180`.
 
 ## Configuration
 

@@ -9,6 +9,7 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
+    "@lexbridge/shared": "*",
     "@apollo/client": "^4.3.5",
     "graphql": "^16.14.2",
     "next": "^16.4.3",
