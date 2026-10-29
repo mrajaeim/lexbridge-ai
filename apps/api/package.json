@@ -1,0 +1,41 @@
+{
+  "name": "@lexbridge/api",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "nest start --watch",
+    "build": "nest build",
+    "start": "node dist/main.js",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:integration": "vitest run --config vitest.integration.config.ts"
+  },
+  "dependencies": {
+    "@apollo/server": "^5.5.1",
+    "@nestjs/apollo": "^14.1.1",
+    "@nestjs/bullmq": "^12.0.0",
+    "@nestjs/common": "^12.3.2",
+    "@nestjs/config": "^12.0.1",
+    "@nestjs/core": "^12.3.2",
+    "@nestjs/graphql": "^14.1.0",
+    "@nestjs/platform-express": "^12.3.2",
+    "bullmq": "^6.5.1",
+    "cookie-parser": "^1.4.7",
+    "graphql": "^16.14.2",
+    "ioredis": "^6.0.0",
+    "openid-client": "^6.8.8",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^12.0.11",
+    "@nestjs/testing": "^12.3.2",
+    "@types/cookie-parser": "^1.4.10",
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.6.6",
+    "@types/supertest": "^7.2.1",
+    "supertest": "^7.3.1",
+    "typescript": "^6.0.3",
+    "vitest": "^5.0.5"
+  }
+}
