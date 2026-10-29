@@ -8,6 +8,19 @@
     "apps/*",
     "packages/*"
   ],
+  "scripts": {
+    "build:libs": "npm run build -w @lexbridge/shared && npm run generate -w @lexbridge/database && npm run build -w @lexbridge/database",
+    "build": "npm run build:libs && npm run build -w @lexbridge/api && npm run build -w @lexbridge/worker && npm run build -w @lexbridge/web",
+    "dev": "npm run build:libs && concurrently -n api,worker,web \"npm run dev -w @lexbridge/api\" \"npm run dev -w @lexbridge/worker\" \"npm run dev -w @lexbridge/web\"",
+    "lint": "eslint .",
+    "typecheck": "npm run typecheck -w @lexbridge/shared && npm run typecheck -w @lexbridge/database && npm run typecheck -w @lexbridge/api && npm run typecheck -w @lexbridge/worker && npm run typecheck -w @lexbridge/web",
+    "test": "npm run test -w @lexbridge/shared && npm run build:libs && npm run test -w @lexbridge/api && npm run test -w @lexbridge/worker",
+    "test:integration": "npm run build:libs && npm run db:migrate && npm run test:integration -w @lexbridge/api",
+    "db:generate": "npm run generate -w @lexbridge/database",
+    "db:migrate": "npm run migrate -w @lexbridge/database",
+    "db:seed": "npm run build:libs && npm run seed -w @lexbridge/database",
+    "format": "prettier --write ."
+  },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "concurrently": "^10.0.6",
