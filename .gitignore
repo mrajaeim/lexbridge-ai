@@ -9,3 +9,4 @@ storage
 *.tsbuildinfo
 .pnpm-store
 *.log
+.vscode
