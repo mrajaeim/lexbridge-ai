@@ -1,0 +1,239 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum OrgRole {
+  ADMIN
+  EDITOR
+  READER
+}
+
+enum DocumentStatus {
+  DRAFT
+  PUBLISHED
+}
+
+enum MessageRole {
+  USER
+  ASSISTANT
+}
+
+enum MessageStatus {
+  PENDING
+  STREAMING
+  COMPLETE
+  FAILED
+}
+
+enum ExportStatus {
+  QUEUED
+  PROCESSING
+  COMPLETE
+  FAILED
+}
+
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  name          String
+  emailVerified Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  identities       ExternalIdentity[]
+  memberships      Membership[]
+  invitationsSent  Invitation[]     @relation("InvitedBy")
+  conversations    Conversation[]
+  documentsCreated Document[]       @relation("DocumentAuthor")
+  exportJobs       ExportJob[]
+  auditLogs        AuditLog[]       @relation("AuditActor")
+}
+
+model ExternalIdentity {
+  id      String @id @default(cuid())
+  issuer  String
+  subject String
+  userId  String
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([issuer, subject])
+  @@index([userId])
+}
+
+model Organization {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  createdAt DateTime @default(now())
+
+  memberships   Membership[]
+  invitations   Invitation[]
+  documents     Document[]
+  conversations Conversation[]
+  messages      Message[]
+  citations     Citation[]
+  chunks        DocumentChunk[]
+  exportJobs    ExportJob[]
+  auditLogs     AuditLog[]
+}
+
+model Membership {
+  id             String   @id @default(cuid())
+  userId         String
+  organizationId String
+  role           OrgRole
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, organizationId])
+  @@index([organizationId])
+}
+
+model Invitation {
+  id             String    @id @default(cuid())
+  organizationId String
+  email          String
+  role           OrgRole
+  tokenHash      String    @unique
+  invitedById    String
+  expiresAt      DateTime
+  acceptedAt     DateTime?
+  createdAt      DateTime  @default(now())
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  invitedBy    User         @relation("InvitedBy", fields: [invitedById], references: [id], onDelete: Restrict)
+
+  @@index([organizationId])
+  @@index([email])
+}
+
+model Document {
+  id             String         @id @default(cuid())
+  organizationId String
+  title          String
+  body           String
+  status         DocumentStatus @default(DRAFT)
+  createdById    String
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  organization Organization    @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  createdBy    User            @relation("DocumentAuthor", fields: [createdById], references: [id], onDelete: Restrict)
+  chunks       DocumentChunk[]
+  citations    Citation[]
+
+  @@index([organizationId, status])
+}
+
+model DocumentChunk {
+  id             String @id @default(cuid())
+  documentId     String
+  organizationId String
+  ordinal        Int
+  content        String
+
+  document     Document     @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId])
+  @@index([documentId])
+}
+
+model Conversation {
+  id             String   @id @default(cuid())
+  organizationId String
+  userId         String
+  title          String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  user         User         @relation(fields: [userId], references: [id], onDelete: Restrict)
+  messages     Message[]
+  exportJobs   ExportJob[]
+
+  @@index([organizationId, userId])
+}
+
+model Message {
+  id             String        @id @default(cuid())
+  conversationId String
+  organizationId String
+  role           MessageRole
+  content        String        @default("")
+  status         MessageStatus @default(PENDING)
+  sequence       Int           @default(0)
+  insufficient   Boolean       @default(false)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  citations    Citation[]
+
+  @@index([conversationId])
+  @@index([organizationId])
+}
+
+model Citation {
+  id             String @id @default(cuid())
+  messageId      String
+  documentId     String
+  chunkId        String
+  organizationId String
+  label          String
+  excerpt        String
+
+  message      Message      @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  document     Document     @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([messageId])
+  @@index([organizationId])
+}
+
+model ExportJob {
+  id             String       @id @default(cuid())
+  organizationId String
+  conversationId String
+  requestedById  String
+  contentVersion String
+  status         ExportStatus @default(QUEUED)
+  attempts       Int          @default(0)
+  filePath       String?
+  error          String?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  completedAt    DateTime?
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  requestedBy  User         @relation(fields: [requestedById], references: [id], onDelete: Restrict)
+
+  @@index([organizationId])
+  @@index([conversationId, contentVersion])
+}
+
+model AuditLog {
+  id             String   @id @default(cuid())
+  organizationId String
+  actorId        String
+  action         String
+  targetType     String
+  targetId       String
+  metadata       Json?
+  createdAt      DateTime @default(now())
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  actor        User         @relation("AuditActor", fields: [actorId], references: [id], onDelete: Restrict)
+
+  @@index([organizationId, createdAt])
+}
