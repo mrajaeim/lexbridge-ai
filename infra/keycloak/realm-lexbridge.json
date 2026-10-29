@@ -1,0 +1,106 @@
+{
+  "id": "11111111-1111-1111-1111-111111111111",
+  "realm": "lexbridge",
+  "displayName": "LexBridge",
+  "enabled": true,
+  "sslRequired": "none",
+  "registrationAllowed": false,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": false,
+  "editUsernameAllowed": false,
+  "bruteForceProtected": true,
+  "accessTokenLifespan": 300,
+  "ssoSessionIdleTimeout": 28800,
+  "ssoSessionMaxLifespan": 36000,
+  "clients": [
+    {
+      "id": "22222222-2222-2222-2222-222222222222",
+      "clientId": "lexbridge-api",
+      "name": "LexBridge API",
+      "description": "Confidential OIDC client for the LexBridge API. Authorization code and PKCE only.",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "secret": "lexbridge-dev-secret",
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "frontchannelLogout": true,
+      "redirectUris": ["http://localhost:4000/auth/callback"],
+      "webOrigins": ["http://localhost:3000"],
+      "attributes": {
+        "pkce.code.challenge.method": "S256",
+        "post.logout.redirect.uris": "http://localhost:3000/*"
+      }
+    }
+  ],
+  "users": [
+    {
+      "username": "alice",
+      "email": "alice@alpha.example",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "Alice",
+      "lastName": "Admin",
+      "credentials": [{ "type": "password", "value": "Lexbridge-demo-1", "temporary": false }]
+    },
+    {
+      "username": "bob",
+      "email": "bob@alpha.example",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "Bob",
+      "lastName": "Editor",
+      "credentials": [{ "type": "password", "value": "Lexbridge-demo-1", "temporary": false }]
+    },
+    {
+      "username": "carol",
+      "email": "carol@alpha.example",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "Carol",
+      "lastName": "Reader",
+      "credentials": [{ "type": "password", "value": "Lexbridge-demo-1", "temporary": false }]
+    },
+    {
+      "username": "david",
+      "email": "david@beta.example",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "David",
+      "lastName": "Admin",
+      "credentials": [{ "type": "password", "value": "Lexbridge-demo-1", "temporary": false }]
+    },
+    {
+      "username": "emma",
+      "email": "emma@beta.example",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "Emma",
+      "lastName": "Reader",
+      "credentials": [{ "type": "password", "value": "Lexbridge-demo-1", "temporary": false }]
+    }
+  ],
+  "identityProviders": [
+    {
+      "alias": "google",
+      "displayName": "Google",
+      "providerId": "google",
+      "enabled": false,
+      "trustEmail": true,
+      "storeToken": false,
+      "linkOnly": false,
+      "authenticateByDefault": false,
+      "firstBrokerLoginFlowAlias": "first broker login",
+      "config": {
+        "clientId": "replace-with-google-client-id",
+        "clientSecret": "replace-with-google-client-secret",
+        "defaultScope": "openid email profile",
+        "syncMode": "IMPORT",
+        "useJwksUrl": "true"
+      }
+    }
+  ]
+}
