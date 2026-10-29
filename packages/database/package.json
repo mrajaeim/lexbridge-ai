@@ -13,9 +13,12 @@
   },
   "dependencies": {
     "@nestjs/common": "^12.3.2",
-    "@prisma/client": "^7.10.1"
+    "@prisma/adapter-pg": "^7.10.1",
+    "@prisma/client": "^7.10.1",
+    "pg": "^8.23.1"
   },
   "devDependencies": {
+    "dotenv": "^17.4.2",
     "prisma": "^7.10.1",
     "tsx": "^4.23.15",
     "typescript": "^6.0.3"

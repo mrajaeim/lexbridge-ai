@@ -1,7 +1,8 @@
-import { DocumentStatus, OrgRole, PrismaClient } from '@prisma/client';
+import { DocumentStatus, OrgRole } from '@prisma/client';
 import { chunkText } from '@lexbridge/shared';
+import { createPrismaClient } from '../src/create-prisma-client';
 
-const prisma = new PrismaClient();
+const prisma = createPrismaClient();
 
 const DISCLAIMER = 'Synthetic sample for a technical prototype. Not legal advice.';
 
