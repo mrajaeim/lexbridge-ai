@@ -43,7 +43,7 @@
       "emailVerified": true,
       "enabled": true,
       "firstName": "Alice",
-      "lastName": "Admin",
+      "lastName": "Chen",
       "credentials": [{ "type": "password", "value": "Lexbridge-demo-1", "temporary": false }]
     },
     {
@@ -52,7 +52,7 @@
       "emailVerified": true,
       "enabled": true,
       "firstName": "Bob",
-      "lastName": "Editor",
+      "lastName": "Okonkwo",
       "credentials": [{ "type": "password", "value": "Lexbridge-demo-1", "temporary": false }]
     },
     {
@@ -61,7 +61,7 @@
       "emailVerified": true,
       "enabled": true,
       "firstName": "Carol",
-      "lastName": "Reader",
+      "lastName": "Nguyen",
       "credentials": [{ "type": "password", "value": "Lexbridge-demo-1", "temporary": false }]
     },
     {
@@ -70,7 +70,7 @@
       "emailVerified": true,
       "enabled": true,
       "firstName": "David",
-      "lastName": "Admin",
+      "lastName": "Patel",
       "credentials": [{ "type": "password", "value": "Lexbridge-demo-1", "temporary": false }]
     },
     {
@@ -79,7 +79,7 @@
       "emailVerified": true,
       "enabled": true,
       "firstName": "Emma",
-      "lastName": "Reader",
+      "lastName": "Rossi",
       "credentials": [{ "type": "password", "value": "Lexbridge-demo-1", "temporary": false }]
     }
   ],

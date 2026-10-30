@@ -91,11 +91,11 @@ const documents: SeedDoc[] = [
 ];
 
 const people: Array<{ email: string; name: string; slug: string; role: OrgRole }> = [
-  { email: 'alice@alpha.example', name: 'Alice Admin', slug: 'firm-alpha', role: OrgRole.ADMIN },
-  { email: 'bob@alpha.example', name: 'Bob Editor', slug: 'firm-alpha', role: OrgRole.EDITOR },
-  { email: 'carol@alpha.example', name: 'Carol Reader', slug: 'firm-alpha', role: OrgRole.READER },
-  { email: 'david@beta.example', name: 'David Admin', slug: 'firm-beta', role: OrgRole.ADMIN },
-  { email: 'emma@beta.example', name: 'Emma Reader', slug: 'firm-beta', role: OrgRole.READER },
+  { email: 'alice@alpha.example', name: 'Alice Chen', slug: 'firm-alpha', role: OrgRole.ADMIN },
+  { email: 'bob@alpha.example', name: 'Bob Okonkwo', slug: 'firm-alpha', role: OrgRole.EDITOR },
+  { email: 'carol@alpha.example', name: 'Carol Nguyen', slug: 'firm-alpha', role: OrgRole.READER },
+  { email: 'david@beta.example', name: 'David Patel', slug: 'firm-beta', role: OrgRole.ADMIN },
+  { email: 'emma@beta.example', name: 'Emma Rossi', slug: 'firm-beta', role: OrgRole.READER },
 ];
 
 async function main(): Promise<void> {

@@ -136,13 +136,13 @@ Google is used for brokering only. Organization roles continue to come from LexB
 
 All demo users share the password `Lexbridge-demo-1`.
 
-| User | Organization | Role |
-| --- | --- | --- |
-| alice | Firm Alpha | Admin |
-| bob | Firm Alpha | Editor |
-| carol | Firm Alpha | Reader |
-| david | Firm Beta | Admin |
-| emma | Firm Beta | Reader |
+| User | Name | Organization | Role |
+| --- | --- | --- | --- |
+| alice | Alice Chen | Firm Alpha | Admin |
+| bob | Bob Okonkwo | Firm Alpha | Editor |
+| carol | Carol Nguyen | Firm Alpha | Reader |
+| david | David Patel | Firm Beta | Admin |
+| emma | Emma Rossi | Firm Beta | Reader |
 
 Linking a Keycloak login to a seeded user requires `email_verified`. The demo users are imported with verified emails.
 
