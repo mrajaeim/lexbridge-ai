@@ -35,7 +35,25 @@ body {
 
 a { color: var(--accent); }
 
-a:hover { color: var(--accent-hover); }
+a:hover:not(.button):not(.quick-link) {
+  color: var(--accent-hover);
+}
+
+a.button,
+a.button:hover,
+a.button:focus-visible {
+  color: var(--accent-ink);
+  text-decoration: none;
+}
+
+a.button.secondary {
+  color: var(--ink);
+}
+
+a.button.secondary:hover,
+a.button.secondary:focus-visible {
+  color: var(--accent);
+}
 
 button, input, textarea, select { font: inherit; }
 
@@ -91,6 +109,10 @@ button:disabled, .button.disabled {
 .button.secondary:hover:not(:disabled), button.secondary:hover:not(:disabled) {
   background: white;
   border-color: var(--accent);
+  color: var(--accent);
+}
+
+button.button.secondary:hover:not(:disabled) {
   color: var(--accent);
 }
 
@@ -270,6 +292,25 @@ button:disabled, .button.disabled {
   font-size: 1.15rem;
   font-weight: 600;
   margin: 0 0 0.65rem;
+}
+
+#demo {
+  scroll-margin-top: 1.5rem;
+}
+
+#demo:target {
+  animation: demo-highlight 2.4s ease;
+}
+
+@keyframes demo-highlight {
+  0%, 20% {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgb(15 107 76 / 18%), var(--shadow);
+  }
+  100% {
+    border-color: var(--line);
+    box-shadow: var(--shadow);
+  }
 }
 
 h1 {
