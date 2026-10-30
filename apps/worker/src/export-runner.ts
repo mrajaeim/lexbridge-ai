@@ -1,4 +1,4 @@
-import { exportFilePath } from './pdf-renderer';
+import { exportPdfPath } from '@lexbridge/shared';
 
 export type ExportRecord = {
   id: string;
@@ -42,7 +42,7 @@ export async function runExport(input: {
   const job = await input.store.find(input.exportJobId);
   if (!job) return;
   await input.store.update(job.id, { status: 'PROCESSING', attempts: input.attempt, error: null });
-  const filePath = exportFilePath(input.exportDir, job.organizationId, job.id);
+  const filePath = exportPdfPath(input.exportDir, job.organizationId, job.id);
   try {
     await input.render(job, filePath);
     await input.store.update(job.id, {

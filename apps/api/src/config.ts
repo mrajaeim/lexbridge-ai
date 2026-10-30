@@ -1,3 +1,5 @@
+import { resolveExportDir } from '@lexbridge/shared';
+
 export type AppConfig = {
   port: number;
   webOrigin: string;
@@ -27,7 +29,7 @@ export function appConfig(): AppConfig {
     oidcRedirectUri: process.env.OIDC_REDIRECT_URI ?? 'http://localhost:4000/auth/callback',
     cookieSecure: process.env.COOKIE_SECURE === 'true',
     sessionTtlSeconds: Number(process.env.SESSION_TTL_SECONDS ?? 28800),
-    exportDir: process.env.EXPORT_DIR ?? 'storage/exports',
+    exportDir: resolveExportDir(),
     llmApiKey: process.env.LLM_API_KEY ?? '',
     llmBaseUrl: process.env.LLM_BASE_URL ?? 'https://api.openai.com/v1',
     llmModel: process.env.LLM_MODEL ?? 'gpt-4o-mini',

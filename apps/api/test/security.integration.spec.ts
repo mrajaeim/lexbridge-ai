@@ -1,9 +1,16 @@
 import { mkdirSync, writeFileSync } from 'fs';
-import { join } from 'path';
+import { dirname, join } from 'path';
 import { randomBytes } from 'crypto';
 import { INestApplication } from '@nestjs/common';
 import { createPrismaClient, DocumentStatus, OrgRole, PrismaClient } from '@lexbridge/database';
-import { CSRF_HEADER, CSRF_HEADER_VALUE, INSUFFICIENT_ANSWER, SESSION_COOKIE } from '@lexbridge/shared';
+import {
+  CSRF_HEADER,
+  CSRF_HEADER_VALUE,
+  exportPdfPath,
+  INSUFFICIENT_ANSWER,
+  SESSION_COOKIE,
+} from '@lexbridge/shared';
+import { appConfig } from '../src/config';
 import Redis from 'ioredis';
 import request from 'supertest';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
@@ -292,10 +299,6 @@ describe('tenant isolation and protected delivery', () => {
     });
     expect(audits.map((row) => row.action)).toContain('export.requested');
 
-    const dir = join(process.cwd(), 'storage', 'exports', fixtures.alpha.id);
-    mkdirSync(dir, { recursive: true });
-    const filePath = join(dir, `file-${stamp}.pdf`);
-    writeFileSync(filePath, '%PDF-1.4 test');
     const job = await prisma.exportJob.create({
       data: {
         organizationId: fixtures.alpha.id,
@@ -303,9 +306,12 @@ describe('tenant isolation and protected delivery', () => {
         requestedById: fixtures.alice.id,
         contentVersion: `done-${stamp}`,
         status: 'COMPLETE',
-        filePath,
+        filePath: 'stored-for-audit',
       },
     });
+    const filePath = exportPdfPath(appConfig().exportDir, fixtures.alpha.id, job.id);
+    mkdirSync(dirname(filePath), { recursive: true });
+    writeFileSync(filePath, '%PDF-1.4 test');
     const other = await request(app.getHttpServer()).get(`/exports/${job.id}/file`).set('Cookie', fixtures.bob.cookie);
     expect(other.status).toBe(404);
     const owner = await request(app.getHttpServer())

@@ -1,10 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { ExportStatus, PrismaService } from '@lexbridge/database';
-import { PDF_EXPORT_QUEUE } from '@lexbridge/shared';
+import { exportPdfPath, PDF_EXPORT_QUEUE } from '@lexbridge/shared';
 import { InjectQueue } from '@nestjs/bullmq';
 import { Queue } from 'bullmq';
 import { createHash } from 'crypto';
 import { createReadStream } from 'fs';
+import { access } from 'fs/promises';
+import { appConfig } from '../config';
 import { notFound } from '../common/errors';
 import { AuditService } from '../organizations/organizations.service';
 
@@ -84,7 +86,13 @@ export class ExportsService {
 
   async openDownload(userId: string, organizationId: string, id: string) {
     const job = await this.get(userId, organizationId, id);
-    if (job.status !== ExportStatus.COMPLETE || !job.filePath) notFound();
-    return { job, stream: createReadStream(job.filePath) };
+    if (job.status !== ExportStatus.COMPLETE) notFound();
+    const filePath = exportPdfPath(appConfig().exportDir, job.organizationId, job.id);
+    try {
+      await access(filePath);
+    } catch {
+      notFound();
+    }
+    return { job, stream: createReadStream(filePath) };
   }
 }

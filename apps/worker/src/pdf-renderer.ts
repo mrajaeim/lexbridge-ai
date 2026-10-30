@@ -1,5 +1,5 @@
 import { mkdir, createWriteStream } from 'fs';
-import { dirname, join } from 'path';
+import { dirname } from 'path';
 import PDFDocument from 'pdfkit';
 
 type PdfJob = {
@@ -48,8 +48,4 @@ export function renderPdf(job: PdfJob, filePath: string): Promise<void> {
       doc.on('error', reject);
     });
   });
-}
-
-export function exportFilePath(exportDir: string, organizationId: string, jobId: string): string {
-  return join(exportDir, organizationId, `${jobId}.pdf`);
 }

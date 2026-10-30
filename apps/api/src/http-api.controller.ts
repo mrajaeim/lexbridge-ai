@@ -1,5 +1,6 @@
 import { Controller, Get, Param, Query, Req, Res, UnauthorizedException } from '@nestjs/common';
 import { Request, Response } from 'express';
+import { pipeline } from 'stream/promises';
 import { AuthContextService } from './auth/auth-context.service';
 import { ChatService } from './chat/chat.service';
 import { ExportsService } from './exports/exports.service';
@@ -47,6 +48,10 @@ export class HttpApiController {
     const opened = await this.exports.openDownload(ctx.user.id, ctx.membership.organizationId, id);
     res.setHeader('Content-Type', 'application/pdf');
     res.setHeader('Content-Disposition', `attachment; filename="lexbridge-${id}.pdf"`);
-    opened.stream.pipe(res);
+    try {
+      await pipeline(opened.stream, res);
+    } catch {
+      if (!res.headersSent) res.status(404).end();
+    }
   }
 }

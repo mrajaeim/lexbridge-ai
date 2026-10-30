@@ -1,7 +1,7 @@
 import { Processor, WorkerHost } from '@nestjs/bullmq';
 import { Logger } from '@nestjs/common';
 import { ExportStatus, PrismaService } from '@lexbridge/database';
-import { PDF_EXPORT_QUEUE } from '@lexbridge/shared';
+import { PDF_EXPORT_QUEUE, resolveExportDir } from '@lexbridge/shared';
 import { Job } from 'bullmq';
 import { ExportRecord, ExportStore, runExport } from './export-runner';
 import { renderPdf } from './pdf-renderer';
@@ -73,7 +73,7 @@ export class PdfExportProcessor extends WorkerHost {
     await runExport({
       store: new PrismaExportStore(this.prisma),
       render: renderPdf,
-      exportDir: process.env.EXPORT_DIR ?? 'storage/exports',
+      exportDir: resolveExportDir(),
       exportJobId: job.data.exportJobId,
       attempt: job.attemptsMade + 1,
       maxAttempts: job.opts.attempts ?? 3,
