@@ -8,6 +8,15 @@
     ".": {
       "types": "./src/index.ts",
       "default": "./dist/index.js"
+    },
+    "./export-paths": {
+      "types": "./src/export-paths.ts",
+      "default": "./dist/export-paths.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "export-paths": ["./src/export-paths.ts"]
     }
   },
   "scripts": {

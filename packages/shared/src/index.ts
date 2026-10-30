@@ -3,8 +3,6 @@ export const CSRF_HEADER = 'x-lexbridge-request';
 export const CSRF_HEADER_VALUE = '1';
 export const PDF_EXPORT_QUEUE = 'pdf-export';
 
-export { exportPdfPath, resolveExportDir } from './export-paths';
-
 export const OrgRole = {
   ADMIN: 'ADMIN',
   EDITOR: 'EDITOR',

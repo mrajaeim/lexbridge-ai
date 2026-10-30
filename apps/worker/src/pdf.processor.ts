@@ -1,7 +1,8 @@
 import { Processor, WorkerHost } from '@nestjs/bullmq';
 import { Logger } from '@nestjs/common';
 import { ExportStatus, PrismaService } from '@lexbridge/database';
-import { PDF_EXPORT_QUEUE, resolveExportDir } from '@lexbridge/shared';
+import { PDF_EXPORT_QUEUE } from '@lexbridge/shared';
+import { resolveExportDir } from '@lexbridge/shared/export-paths';
 import { Job } from 'bullmq';
 import { ExportRecord, ExportStore, runExport } from './export-runner';
 import { renderPdf } from './pdf-renderer';

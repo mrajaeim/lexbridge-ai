@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ExportStatus, PrismaService } from '@lexbridge/database';
-import { exportPdfPath, PDF_EXPORT_QUEUE } from '@lexbridge/shared';
+import { PDF_EXPORT_QUEUE } from '@lexbridge/shared';
+import { exportPdfPath } from '@lexbridge/shared/export-paths';
 import { InjectQueue } from '@nestjs/bullmq';
 import { Queue } from 'bullmq';
 import { createHash } from 'crypto';

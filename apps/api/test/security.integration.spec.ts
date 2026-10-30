@@ -3,13 +3,8 @@ import { dirname, join } from 'path';
 import { randomBytes } from 'crypto';
 import { INestApplication } from '@nestjs/common';
 import { createPrismaClient, DocumentStatus, OrgRole, PrismaClient } from '@lexbridge/database';
-import {
-  CSRF_HEADER,
-  CSRF_HEADER_VALUE,
-  exportPdfPath,
-  INSUFFICIENT_ANSWER,
-  SESSION_COOKIE,
-} from '@lexbridge/shared';
+import { CSRF_HEADER, CSRF_HEADER_VALUE, INSUFFICIENT_ANSWER, SESSION_COOKIE } from '@lexbridge/shared';
+import { exportPdfPath } from '@lexbridge/shared/export-paths';
 import { appConfig } from '../src/config';
 import Redis from 'ioredis';
 import request from 'supertest';

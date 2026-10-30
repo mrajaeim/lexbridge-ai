@@ -1,4 +1,4 @@
-import { exportPdfPath } from '@lexbridge/shared';
+import { exportPdfPath } from '@lexbridge/shared/export-paths';
 
 export type ExportRecord = {
   id: string;

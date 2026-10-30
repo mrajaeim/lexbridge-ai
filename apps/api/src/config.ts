@@ -1,4 +1,4 @@
-import { resolveExportDir } from '@lexbridge/shared';
+import { resolveExportDir } from '@lexbridge/shared/export-paths';
 
 export type AppConfig = {
   port: number;
